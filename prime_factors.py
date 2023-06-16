@@ -16,17 +16,13 @@ def prime_factors(n):
 
     factor = []
     div = 2
-    if n == 8:
-        while 1 < n:
-            n = n // div
+    while div <= n:
+        if n % div == 0:
+            n /= div
             factor.append(div)
-
-        return factor
-
-    if n == 3:
-        return [n]
-    if n == 1:
-        return []
+        else:
+            div += 1
+    return factor
 
 
 def test_one():
@@ -37,3 +33,9 @@ def test_three():
 
 def test_eight():
     assert prime_factors(8) == [2, 2, 2]
+
+def test_nine():
+    assert prime_factors(9) == [3, 3]
+
+def test_twelve():
+    assert prime_factors(12) == [2, 2, 3]
