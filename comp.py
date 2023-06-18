@@ -19,15 +19,9 @@ Examples:
 
 
 def comp(a, b):
-    return len(a) == len(b) and all(x * x in b for x in a)
+    return None not in (a, b) and len(a) == len(b) and all(a.count(x) == b.count(x**2) for x in a)
 
-def comp2(a, b):
 
-    if len(a) == len(b):
-        for x in a:
-            if x ** 2 not in b:
-                return False
-        return True
 
 def test_one_number():
     a = [3]
@@ -57,4 +51,19 @@ def test_three_numbers_not_exact_square():
 def test_one_number_not_square():
     a = [3, 4, 5]
     b = [9, 17, 36]
+    assert comp(a, b) == False
+
+def test_cw1():
+    a = [121, 144, 19, 161, 19, 144, 19, 11]
+    b = [11 * 11, 121 * 121, 144 * 144, 19 * 19, 161 * 161, 19 * 19, 144 * 144, 19 * 19]
+    assert comp(a, b) == True
+
+def test_cw2():
+    a = [121, 144, 19, 161, 19, 144, 19, 11]
+    b = [11 * 21, 121 * 121, 144 * 144, 19 * 19, 161 * 161, 19 * 19, 144 * 144, 19 * 19]
+    assert comp(a, b) == False
+
+def test_cw3():
+    a = [121, 144, 19, 161, 19, 144, 19, 11]
+    b = [11 * 11, 121 * 121, 144 * 144, 190 * 190, 161 * 161, 19 * 19, 144 * 144, 19 * 19]
     assert comp(a, b) == False
