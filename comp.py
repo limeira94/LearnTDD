@@ -19,25 +19,15 @@ Examples:
 
 
 def comp(a, b):
-    if len(a) == 3:
-        if (
-            (a[0] * a[0] == b[0], b[1], b[2]) and
-            (a[1] * a[1] == b[0], b[1], b[2]) and
-            (a[2] * a[2] == b[0], b[1], b[2])
-        ):
-            return True
+    return len(a) == len(b) and all(x * x in b for x in a)
 
-    if len(a) == 2:
-        i = 0
-        if (a[i] * a[i] == b[i], b[i+1]) and (a[i+1] * a[i+1] == b[i], b[i+1]):
-            return True
+def comp2(a, b):
 
-    if len(a) == 1:
-        i = 0
-        if a[i] * a[i] == b[i]:
-            return True
-    return False
-
+    if len(a) == len(b):
+        for x in a:
+            if x ** 2 not in b:
+                return False
+        return True
 
 def test_one_number():
     a = [3]
@@ -62,7 +52,7 @@ def test_three_numbers():
 def test_three_numbers_not_exact_square():
     a = [3, 4, 5]
     b = [10, 17, 26]
-    assert comp(a, b) == True
+    assert comp(a, b) == False
 
 def test_one_number_not_square():
     a = [3, 4, 5]
