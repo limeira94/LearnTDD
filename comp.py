@@ -22,7 +22,6 @@ def comp(a, b):
     return None not in (a, b) and len(a) == len(b) and all(a.count(x) == b.count(x**2) for x in a)
 
 
-
 def test_one_number():
     a = [3]
     b = [9]
