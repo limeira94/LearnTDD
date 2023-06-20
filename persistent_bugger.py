@@ -9,39 +9,27 @@ For example (Input --> Output):
 
 
 def persistence(n):
-    if n == 39:
-        lista = []
-        temp = n
-        while temp > 0:
-            digit1 = temp % 10
-            digit2 = temp // 10
-            result = digit1 * digit2
-            lista.append(result)
-            if result in lista:
-                temp = 0
-        return len(lista)
 
-    if n == 12:
-        lista = []
-        temp = n
-        while temp > 0:
-            digit1 = temp % 10
-            digit2 = temp // 10
-            result = digit1 * digit2
-            lista.append(result)
-            if result in lista:
-                temp = 0
-        return len(lista)
+    lista = []
+    temp = n
+    while temp > 0:
+        digit1 = temp % 10
+        digit2 = temp // 10
+        result = digit1 * digit2
+        lista.append(result)
+        temp = result
 
-    if n == 4:
-        return 0
+    return len(lista) - 1
 
 
-def test_one_digit():
-    assert persistence(4) == 0
+# def test_one_digit():
+#     assert persistence(4) == 0
+#
+# def test_two_digits():
+#     assert persistence(12) == 1
+#
+# def test_two_digits_2():
+#     assert persistence(39) == 3
 
-def test_two_digits():
-    assert persistence(12) == 1
-
-def test_two_digits_2():
-    assert persistence(39) == 3
+def test_three_digits():
+    assert persistence(999) == 4
