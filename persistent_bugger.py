@@ -9,27 +9,36 @@ For example (Input --> Output):
 
 
 def persistence(n):
-
     lista = []
-    temp = n
-    while temp > 0:
-        digit1 = temp % 10
-        digit2 = temp // 10
-        result = digit1 * digit2
-        lista.append(result)
-        temp = result
+    while n >= 10:
+        multip = 1
+        while n > 0:
+            digit = n % 10
+            multip *= digit
+            n //= 10
+        lista.append(multip)
+        n = multip
+    return len(lista)
 
-    return len(lista) - 1
+def persistence2(n):
+    if n < 10:
+        return 0
+    multip = 1
+    while n > 0:
+        digit = n % 10
+        multip *= digit
+        n //= 10
+    return 1 + persistence(multip)
 
 
-# def test_one_digit():
-#     assert persistence(4) == 0
-#
-# def test_two_digits():
-#     assert persistence(12) == 1
-#
-# def test_two_digits_2():
-#     assert persistence(39) == 3
+def test_one_digit():
+    assert persistence(4) == 0
+
+def test_two_digits():
+    assert persistence(12) == 1
+
+def test_two_digits_2():
+    assert persistence(39) == 3
 
 def test_three_digits():
     assert persistence(999) == 4
