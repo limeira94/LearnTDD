@@ -22,52 +22,53 @@ import pytest
 from math import sqrt
 
 class Vector:
-    def __init__(self, vector):
-        if len(vector) == 0:
-            raise ValueError('Vector must have at least one component')
-        self.vector = vector
+    def __init__(self, components):
+        self.components = components
 
-    def add(self, other):
-        self.equals(other)
-        new_vector = []
-        for item in range(len(self.vector)):
-            soma = self.vector[item] + other.vector[item]
-            new_vector.append(soma)
-        return Vector(new_vector)
+    def __str__(self):
+        return '(' + ','.join(str(c) for c in self.components) + ')'
 
     def equals(self, other):
-        if len(self.vector) != len(other.vector):
-            raise ValueError('Cannot add vectors of different lengths')
+        return self.components == other.components
+
+    def add(self, other):
+        if len(self.components) != len(other.components):
+            raise ValueError("Vectors must have the same length")
+        result = []
+        for item in range(len(self.components)):
+            soma = self.components[item] + other.components[item]
+            result.append(soma)
+        return Vector(result)
 
     def subtract(self, other):
-        self.equals(other)
-        new_vector = []
-        for item in range(len(self.vector)):
-            subt = self.vector[item] - other.vector[item]
-            new_vector.append(subt)
-        return Vector(new_vector)
+        if len(self.components) != len(other.components):
+            raise ValueError("Vectors must have the same length")
+        result = []
+        for item in range(len(self.components)):
+            subt = self.components[item] - other.components[item]
+            result.append(subt)
+        return Vector(result)
 
     def dot(self, other):
-        self.equals(other)
+        if len(self.components) != len(other.components):
+            raise ValueError("Vectors must have the same length")
         result = 0
-        for vec in zip(self.vector, other.vector):
+        for vec in zip(self.components, other.components):
             mult = vec[0] * vec[1]
             result += mult
         return result
 
-    def norm(self, other):
-        self.equals(other)
+    def norm(self):
         result = 0
-        for vec in zip(self.vector, other.vector):
-            exp = vec[0] ^ vec[1]
+        for vec in self.components:
+            exp = vec ** 2
             result += exp
         return sqrt(result)
 
 
 def test_norm_two_vector():
     a = Vector([1, 2, 3])
-    b = Vector([4, 5, 6])
-    assert a.norm(b) == sqrt(17)
+    assert a.norm() == sqrt(14)
 
 def test_dot_two_vector():
     a = Vector([1, 2, 3])
@@ -78,31 +79,16 @@ def test_add_two_vector():
     a = Vector([1, 2, 3])
     b = Vector([4, 5, 6])
     vector_soma = a.add(b)
-    assert vector_soma.vector == [5, 7, 9]
+    assert vector_soma.components == [5, 7, 9]
 
 def test_subtract_two_vector():
     a = Vector([1, 2, 3])
     b = Vector([4, 5, 6])
     vector_sub = a.subtract(b)
-    assert vector_sub.vector == [-3, -3, -3]
+    assert vector_sub.components == [-3, -3, -3]
 
 def test_length_diff():
     a = Vector([1, 2, 3])
     b = Vector([4, 5, 6, 7])
     with pytest.raises(ValueError):
         a.add(b)
-
-@pytest.mark.skip
-def test_equal_length_vector():
-    a = Vector([1, 2, 3])
-    b = Vector([4, 5, 6])
-    igual = a.equal(b)
-    assert igual == True
-
-@pytest.mark.skip
-def test_diff_length_vector():
-    a = Vector([1, 2, 3])
-    b = Vector([4, 5, 6, 7])
-    igual = a.equal(b)
-    assert igual == False
-
